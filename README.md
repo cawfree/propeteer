@@ -3,13 +3,13 @@
 
 ## 🚀 Getting Started
 
-Using [`npm`]:
+Using [`npm`]():
 
 ```sh
 npm install --save propeteer
 ```
 
-Using [`yarn`]:
+Using [`yarn`]():
 
 ```sh
 yarn add propeteer

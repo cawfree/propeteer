@@ -1,0 +1,17 @@
+{
+  "name": "propeteer",
+  "version": "0.0.1",
+  "description": "🧸Config comes in, React comes out.",
+  "main": "index.js",
+  "repository": "https://github.com/cawfree/propeteer",
+  "author": "Alex Thomas (@cawfree) <hello@cawfree.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "flat": "^4.1.0",
+    "lodash": "^4.17.15",
+    "prop-types": "^15.7.2",
+    "react": "^16.10.2",
+    "react-jsx-parser": "^1.20.0"
+  }
+}

@@ -1,7 +1,5 @@
 # propeteer
-🧸Config comes in, React comes out.
-
-This project adheres to [Semantic Versioning](https://docs.npmjs.com/about-semantic-versioning).
+🧸Config comes in, React comes out.. This project adheres to [Semantic Versioning](https://docs.npmjs.com/about-semantic-versioning).
 
 ## 🚀 Getting Started
 

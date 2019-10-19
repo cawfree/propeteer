@@ -21,7 +21,7 @@ Some interfaces we present to the user are defined by pure config; this is espec
 
 In traditional frontend development, an API serves you some JSON which you're expected to translate into your frontend. This normally means that whenever future enhancements are made to the response, clients are required to update parsers and manage the propagation of this data into their DOM.
 
-By defining props using _config_, we have the entire breadth of React at our disposal, since your config _is_ exactly what is presented, and all the meaningful intepretations are already made possible to you by React and the custom components you deploy. Meanwhile, any referenced compnents in config can themselves can define the sensible default values, or be internally wrapped using operation-critical components.
+By defining props using _config_, we have the entire breadth of React at our disposal, since your config _is_ exactly what is presented, and all the meaningful intepretations are already made possible to you by React and the custom components you deploy. Meanwhile, any referenced components in config can themselves can define the sensible default values, or be internally wrapped using operation-critical components.
 
 In addition, bespoke customization of deeply-nested components in React can also be very tricky. It's not often that you import a project dependency that fits your application theme. Similarly, they require you to _trust_ the implemetor to expose the correct configuration properties for all levels, for each component, or accept a lot of your [pull requests](). This can be particularly obstructive to development when all you care about is the intrinsic _capabilities_ of library, but not the subjective presentation that you're forced to use alongside it.
 
@@ -46,7 +46,7 @@ Defines a Component reference, i.e.
 ```
 
 #### `$`
-Defines an array of children, who are themselves defined using config. By leveraging the power of
+Defines an array of children, who are themselves defined using config.
 
 ```json
 {
@@ -68,7 +68,7 @@ Any config prop declared using the key `children` will be _ignored_.
 
 ## ✍️ Examples
 
-### Hello, world!
+## Hello, world!
 
 To get started, let's take a look at what a "Hello, world!" looks like in Propeteer.
 

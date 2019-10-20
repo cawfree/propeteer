@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import JsxParser from 'react-jsx-parser';
 import flatten, { unflatten } from 'flat';
-import { merge } from 'lodash';
+import { merge, get } from 'lodash';
 import escape from 'js-string-escape';
+
+const Context = React.createContext(
+  {},
+);
 
 const tabs = n => (
   [...Array(n)]
@@ -85,13 +89,38 @@ const getJsxFor = (children, LookUpTable, aliases) => {
   if (hasChildren && hasLookUpTable) {
     const { _: Root } = children;
     if (typeof Root === 'string') {
-      const components = flatten(LookUpTable);
+      if (LookUpTable.Puppet) {
+        console.warn(
+          'Propeteer: You have attempted to use a reserved class name, "Puppet". This will be overridden.',
+        );
+      }
+      const lookUpTable = {
+        ...LookUpTable,
+        'Puppet': class Puppet extends React.Component {
+          static contextType = Context;
+          render() {
+            const Component = LookUpTable[Root];
+            return (
+              <Component
+                {...this.props}
+                {...this.context}
+              />
+            );
+          }
+        },
+      };
+      const components = flatten(lookUpTable);
       return [
         components,
         jsx(
           unflatten(
             antialias(
-              flatten(children),
+              flatten(
+                {
+                  ...children,
+                  _: 'Puppet',
+                },
+              ),
               flatten(aliases),
             ),
           ),
@@ -104,9 +133,9 @@ const getJsxFor = (children, LookUpTable, aliases) => {
   return [];
 };
 
-const Propeteer = ({ children, LookUpTable, aliases }) => { 
+const Propeteer = ({ children, LookUpTable, aliases, ...extraProps }) => { 
   const [ [ components, jsx ], setJsx ] = useState(
-    getJsxFor( children, LookUpTable, aliases),
+    getJsxFor(children, LookUpTable, aliases),
   );
   useEffect(
     () => {
@@ -118,11 +147,15 @@ const Propeteer = ({ children, LookUpTable, aliases }) => {
   );
   if (components && jsx) {
     return (
-      <JsxParser
-        jsx={jsx}
-        components={components}
-        renderInWrapper={false}
-      />
+      <Context.Provider
+        value={extraProps}
+      >
+        <JsxParser
+          jsx={jsx}
+          components={components}
+          renderInWrapper={false}
+        />
+      </Context.Provider>
     );
   }
   return null;

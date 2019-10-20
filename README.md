@@ -30,6 +30,7 @@ In addition, bespoke customization of deeply-nested components in React can also
   - Presented components are a function of serializable, transportable config objects.
   - Libraries created using Propeteer permit arbitrary bespoke configuration of the graphical frontend, whilst maintaining the functionality that matters to implemetors.
   - Dynamic components rendered using Propeteer may have a working knowledge of application state, so it is possible to achieve stateful operations, or full working applications, just while using conventional config.
+  - Runtime JSX props propagate as you'd expect into the evaluatde content.
 
 ## 🔤 Syntax Rules
 

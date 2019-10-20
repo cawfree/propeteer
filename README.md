@@ -171,7 +171,7 @@ The important themes to note are:
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, TouchableOpacity, Platform, View, Text } from 'react-native';
-import Propeteer from './Propeteer';
+import Propeteer from 'propeteer';
 import { merge } from 'lodash';
 
 // XXX: A simple component which has the ability to store and regenerate a random number.

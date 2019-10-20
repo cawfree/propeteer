@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import JsxParser from 'react-jsx-parser';
 import flatten, { unflatten } from 'flat';
 import { merge } from 'lodash';
+import escape from 'js-string-escape';
 
 const tabs = n => (
   [...Array(n)]
@@ -21,7 +22,6 @@ const prop = (name, value, components, idt) => {
       return `${name}={\n${jsx(value, components, '', idt + 1)}\n${tabs(idt)}}`;
     }
     console.warn(`Propeteer: Unable to evaluate element prop ${name}.`);
-    // TODO: Should skip resulting whitespace.
   } else if (typeof value === 'boolean' && value) {
     return name;
   } else if (typeof value === 'boolean' && !value) {
@@ -31,24 +31,25 @@ const prop = (name, value, components, idt) => {
   } else if (typeof value === 'object') {
     return `${name}={${JSON.stringify(value)}}`;
   } else if (typeof value === 'string') {
-    // TODO: Needs an escape.
-    return `${name}="${value}"`;
+    return `${name}="${escape(value)}"`;
   }
   return '';
 };
 
-const props = (props = {}, components = {}, str, idt) => {
-  return Object
-    .entries(
-      props,
-    )
-    .reduce(
-      (s, [ name, value ]) => {
-        return `${s}${tabs(idt)}${prop(name, value, components, idt)}\n`;
-      },
-      '',
-    );
-};
+const props = (props = {}, components = {}, str, idt) => Object
+  .entries(
+    props,
+  )
+  .reduce(
+    (s, [ name, value ]) => {
+      const p = prop(name, value, components, idt);
+      if (typeof p === 'string' && p.length > 0) {
+        return `${s}${tabs(idt)}${p}\n`;
+      }
+      return s;
+    },
+    '',
+  );
 
 const jsx = (def = {}, components = {}, str = '', idt = 0) => {
   const { _: Component, $: children, children: $, ...extraProps } = def;
@@ -78,22 +79,51 @@ const antialias = (flattened, aliases) => Object
     {},
   );
 
-const Propeteer = ({ children, LookUpTable, aliases }) => {
+const getJsxFor = (children, LookUpTable, aliases) => {
   const hasChildren = !!children && typeof children === 'object';
   const hasLookUpTable = !!LookUpTable && typeof LookUpTable === 'object';
   if (hasChildren && hasLookUpTable) {
     const { _: Root } = children;
     if (typeof Root === 'string') {
       const components = flatten(LookUpTable);
-      return (
-        <JsxParser
-          jsx={jsx(unflatten(antialias(flatten(children), flatten(aliases))), components)}
-          components={components}
-          bindings={components}
-          renderInWrapper={false}
-        />
-      );
+      return [
+        components,
+        jsx(
+          unflatten(
+            antialias(
+              flatten(children),
+              flatten(aliases),
+            ),
+          ),
+          components,
+        ),
+      ];
+      
     } 
+  }
+  return [];
+};
+
+const Propeteer = ({ children, LookUpTable, aliases }) => { 
+  const [ [ components, jsx ], setJsx ] = useState(
+    getJsxFor( children, LookUpTable, aliases),
+  );
+  useEffect(
+    () => {
+      setJsx(
+        getJsxFor(children, LookUpTable, aliases),
+      );
+    },
+    [ children, LookUpTable, aliases ],
+  );
+  if (components && jsx) {
+    return (
+      <JsxParser
+        jsx={jsx}
+        components={components}
+        renderInWrapper={false}
+      />
+    );
   }
   return null;
 };

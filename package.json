@@ -2,11 +2,25 @@
   "name": "propeteer",
   "version": "0.0.3",
   "description": "🧸Config comes in, React comes out.",
-  "main": "index.js",
+  "main": "dist",
   "repository": "https://github.com/cawfree/propeteer",
   "author": "Alex Thomas (@cawfree) <hello@cawfree.com>",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "build": "babel src --out-dir dist && uglifyjs dist/*.js -o dist/*.js",
+    "prettify": "yarn prettier --write \"**/*.js\"",
+    "test": "jest"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "native",
+    "dynamic",
+    "jsx",
+    "config",
+    "json"
+  ],
   "dependencies": {
     "flat": "^4.1.0",
     "js-string-escape": "^1.0.1",
@@ -14,5 +28,17 @@
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-jsx-parser": "^1.20.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/polyfill": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-react": "^7.8.3",
+    "husky": "^4.2.3",
+    "jest": "^25.1.0",
+    "prettier": "^1.19.1",
+    "uglify-js": "^3.7.7"
   }
 }

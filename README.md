@@ -1,6 +1,9 @@
 # propeteer
 🧸Config comes in, React comes out. This project adheres to [Semantic Versioning](https://docs.npmjs.com/about-semantic-versioning).
 
+<a href="#badge">
+    <img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"></a>
+
 ## 🚀 Getting Started
 
 Using [`npm`]():

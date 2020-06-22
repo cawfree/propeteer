@@ -1,6 +1,6 @@
 {
   "name": "propeteer",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "🧸Config comes in, React comes out.",
   "main": "dist",
   "repository": "https://github.com/cawfree/propeteer",
